@@ -1,68 +1,78 @@
 // main.js
-const passa = document.querySelector("#passa")
+const passa = document.querySelector("#passa");
 
 function mouseHover() {
-   passa.textContent = "Obrigado por passares!!!"
+   passa.textContent = "Obrigado por passares!!!";
 }
 
 function mouseOut() {
-   passa.textContent = "Passa por aqui!!!"
+   passa.textContent = "Passa por aqui!!!";
 }
 
-passa.onmouseover = () => mouseHover()
-passa.onmouseout = () => mouseOut()
+passa.onmouseover = () => mouseHover();
+passa.onmouseout = () => mouseOut();
 
 
-const pinta = document.querySelector("#pinta-p")
+const pinta = document.querySelector("#pinta-p");
 
-document.querySelector("#red").onclick = () => {pinta.style.color = "red"}
-document.querySelector("#blue").onclick = () => {pinta.style.color = "blue"}
-document.querySelector("#green").onclick = () => {pinta.style.color = "green"}
+document.querySelectorAll("button.color").forEach((e) => {
+   e.onclick = () => {
+      pinta.style.color = e.dataset.color;
+   };
+})
 
 
-const inputColorir = document.querySelector("#colorir")
-const cores = ["red","blue","green"]
-let interador = 0
+const inputColorir = document.querySelector("#colorir");
+const cores = ["red", "blue", "green"];
+let interador = 0;
 
 colorir = function () {
-   inputColorir.style.backgroundColor = cores[interador]
-   interador = (interador + 1) % cores.length
+   inputColorir.style.backgroundColor = cores[interador];
+   interador = (interador + 1) % cores.length;
 }
 
-inputColorir.onkeyup = colorir
+inputColorir.onkeyup = colorir;
 
 
-const inputColorBackground = document.querySelector("#cor_background");
-
-colorirBackground = function () {
-   document.body.style.backgroundColor = inputColorBackground.value
+document.querySelector('select').onchange = function () {
+   document.querySelector('body').style.backgroundColor = this.value;
 }
 
-inputColorBackground.onclick = colorirBackground
 
+const botao = document.querySelector("#contar");
+const contagem = document.querySelector("#contagem");
 
-const botao = document.querySelector("#contar")
-const  contagem = document.querySelector("#contagem")
-let count = 0
-
-botao.onclick = function() {
-    count++
-    contagem.textContent = count
+if (!localStorage.getItem('counter')) {
+   localStorage.setItem('counter', 0);
 }
+
+botao.onclick = function () {
+   let counter = localStorage.getItem('counter');
+   counter++;
+   contagem.textContent = counter;
+   localStorage.setItem('counter', counter);
+}
+
+contagem.textContent = localStorage.getItem('counter');
 
 const inputNome = document.querySelector("#nome");
-const inputIdade = document.querySelector("#idade")
-const botaoBio = document.querySelector("#submeterBio")
-const textBio = document.querySelector("#textBio")
+const inputIdade = document.querySelector("#idade");
+const botaoBio = document.querySelector("#submeterBio");
+const textBio = document.querySelector("#textBio");
 
-botaoBio.onclick = function () {
+document.querySelector('form').onsubmit = (e) => {
+
+   e.preventDefault(); // para não recarregar a página~
    textBio.textContent = "Olá, o " + inputNome.value + " tem " + inputIdade.value + "!";
+};
+
+
+const contagemReal = document.querySelector("#counterReal");
+let counterReal = 0;
+
+function counterFunctionReal() {
+   counterReal++;
+   contagemReal.textContent = counterReal;
 }
 
-const contagemReal = document.querySelector("#counter");
-let counter = 0;
-
-setInterval(() => {
-    counter++;
-    contagemReal.textContent = counter;
-}, 1000);
+setInterval(counterFunctionReal, 1000);
